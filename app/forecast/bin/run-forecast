@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "[forecast] task work dir: ${CYLC_TASK_WORK_DIR}"
+echo "[forecast] cycle share dir: ${CYLC_TASK_SHARE_CYCLE_DIR}"
+echo "[forecast] model: ${MODEL_NAME}"
+echo "[forecast] forecast length: ${FORECAST_HOURS} hours"
+
+# The Rose app's file/model-input.txt is copied into the task working directory.
+test -s model-input.txt
+
+mkdir -p "${CYLC_TASK_SHARE_CYCLE_DIR}/forecast"
+
+{
+    echo "model=${MODEL_NAME}"
+    echo "forecast_hours=${FORECAST_HOURS}"
+    echo "cycle=${CYLC_TASK_CYCLE_POINT}"
+    echo "input=$(cat model-input.txt)"
+} > "${CYLC_TASK_SHARE_CYCLE_DIR}/forecast/${OUTPUT_NAME}"
+
+test -s "${CYLC_TASK_SHARE_CYCLE_DIR}/forecast/${OUTPUT_NAME}"
+echo "[forecast] created ${CYLC_TASK_SHARE_CYCLE_DIR}/forecast/${OUTPUT_NAME}"

@@ -1,0 +1,11 @@
+# Development-only illustration.
+# This DOES NOT emulate Slurm/PBS; it only shows a local platform.
+#
+# To make the main flow run locally you would also need to change the
+# task platform selections and remove/replace Slurm/PBS-specific directives.
+
+[platforms]
+    [[localhost]]
+        hosts = localhost
+        job runner = background
+        install target = localhost

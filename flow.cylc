@@ -1,0 +1,34 @@
+[meta]
+    title = Cylc + Rose Cross-Platform Training Workflow
+    description = Forecast on Slurm, transfer data, analyse on PBS.
+
+[scheduling]
+    [[graph]]
+        R1 = "forecast => transfer_data => analyse"
+
+[runtime]
+    [[root]]
+        execution retry delays = 2*PT2M
+
+    [[forecast]]
+        platform = weather_hpc
+        execution time limit = PT1H
+        script = rose task-run
+        [[[directives]]]
+            --cpus-per-task = 4
+            --mem = 8G
+
+    [[transfer_data]]
+        platform = weather_hpc
+        execution time limit = PT15M
+        script = rose task-run
+        [[[directives]]]
+            --cpus-per-task = 1
+            --mem = 1G
+
+    [[analyse]]
+        platform = research_hpc
+        execution time limit = PT30M
+        script = rose task-run
+        [[[directives]]]
+            -l select = 1:ncpus=2:mem=4gb

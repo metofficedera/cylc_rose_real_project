@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SOURCE="${CYLC_TASK_SHARE_CYCLE_DIR}/forecast/${OUTPUT_NAME}"
+REMOTE_DIR="~/cylc-run/${CYLC_WORKFLOW_ID}/share/cycle/${CYLC_TASK_CYCLE_POINT}/forecast"
+
+echo "[transfer] source: ${SOURCE}"
+echo "[transfer] target: ${RESEARCH_LOGIN}:${REMOTE_DIR}/${OUTPUT_NAME}"
+
+test -s "${SOURCE}"
+
+# Assumptions:
+# - SSH from weather_hpc to RESEARCH_LOGIN is allowed.
+# - The research install target uses the normal ~/cylc-run/<workflow-id> layout.
+# - rsync is installed.
+ssh "${RESEARCH_LOGIN}" "mkdir -p ${REMOTE_DIR}"
+rsync -av "${SOURCE}" "${RESEARCH_LOGIN}:${REMOTE_DIR}/${OUTPUT_NAME}"
+
+echo "[transfer] completed"

@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+INPUT="${CYLC_TASK_SHARE_CYCLE_DIR}/forecast/${INPUT_NAME}"
+OUTPUT="${CYLC_TASK_SHARE_CYCLE_DIR}/analysis/${ANALYSIS_NAME}"
+
+echo "[analyse] reading ${INPUT}"
+test -s "${INPUT}"
+
+mkdir -p "${CYLC_TASK_SHARE_CYCLE_DIR}/analysis"
+
+{
+    echo "analysis_cycle=${CYLC_TASK_CYCLE_POINT}"
+    echo "source_file=${INPUT_NAME}"
+    echo "status=accepted"
+    echo "--- source contents ---"
+    cat "${INPUT}"
+} > "${OUTPUT}"
+
+test -s "${OUTPUT}"
+cat "${OUTPUT}"
+echo "[analyse] created ${OUTPUT}"

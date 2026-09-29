@@ -1,0 +1,26 @@
+# EXAMPLE ONLY.
+# Normally this belongs in your site's/user's Cylc global configuration,
+# not inside the workflow source directory.
+
+[platforms]
+    [[weather_hpc]]
+        hosts = login01, login02
+        job runner = slurm
+        install target = weather_fs
+
+    [[research_hpc]]
+        hosts = research01
+        job runner = pbs
+        install target = research_fs
+
+# Optional: place heavy work/share data on large filesystems.
+# Replace these paths with paths valid at your site.
+#
+# [install]
+#     [[symlink dirs]]
+#         [[[weather_fs]]]
+#             work = /weather/large-data
+#             share = /weather/large-data
+#         [[[research_fs]]]
+#             work = /research/large-data
+#             share = /research/large-data

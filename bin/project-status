@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Workflow ID : ${CYLC_WORKFLOW_ID:-not-running-inside-cylc}"
+echo "Task        : ${CYLC_TASK_NAME:-not-a-task}"
+echo "Cycle       : ${CYLC_TASK_CYCLE_POINT:-n/a}"
+echo "Run dir     : ${CYLC_WORKFLOW_RUN_DIR:-n/a}"
+echo "Work dir    : ${CYLC_TASK_WORK_DIR:-n/a}"
+echo "Share dir   : ${CYLC_WORKFLOW_SHARE_DIR:-n/a}"
